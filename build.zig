@@ -11,7 +11,7 @@ const example_dep_names: []const []const u8 = &.{
     "examples/gigadevice/gd32",
     "examples/stmicro/stm32",
     //"examples/espressif/esp",
-    "examples/raspberrypi/rp2040",
+    "examples/raspberrypi/rp2xxx",
 };
 
 const bsps = .{
@@ -22,7 +22,7 @@ const bsps = .{
     .{ "bsp/gigadevice/gd32", @import("bsp/gigadevice/gd32") },
     .{ "bsp/stmicro/stm32", @import("bsp/stmicro/stm32") },
     .{ "bsp/espressif/esp", @import("bsp/espressif/esp") },
-    .{ "bsp/raspberrypi/rp2040", @import("bsp/raspberrypi/rp2040") },
+    .{ "bsp/raspberrypi/rp2xxx", @import("bsp/raspberrypi/rp2xxx") },
 };
 
 pub fn build(b: *Build) void {
