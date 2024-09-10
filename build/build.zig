@@ -478,6 +478,10 @@ pub const Firmware = struct {
                     convert.addArg("--family-id");
                     convert.addArg(firmware.host_build.fmt("0x{X:0>4}", .{@intFromEnum(family_id)}));
 
+                    if (family_id == .RP2350) {
+                        convert.addArg("--rp2350-errata-fix");
+                    }
+
                     convert.addArg("--elf-path");
                     convert.addFileArg(elf_file);
 

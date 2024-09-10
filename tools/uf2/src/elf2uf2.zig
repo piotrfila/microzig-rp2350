@@ -2,15 +2,17 @@ const std = @import("std");
 const uf2 = @import("uf2.zig");
 
 // command line options:
+// --elf-path
 // --output-path
 // --family-id
-// --elf-path
+// --rp2350-errata-fix
 const usage =
-    \\elf2uf2 [--family-id <id>] --elf-path <path> --output-path <path>
+    \\elf2uf2 [--family-id <id>] [--rp2350-errata-fix] --elf-path <path> --output-path <path>
     \\ --help                    Show this message
     \\ --elf-path                Path of the ELF file to convert
     \\ --output-path             Path to save the generated UF2 file
     \\ --family-id               Family id of the microcontroller
+    \\ --rp2350-errata-fix       Insert additional block at end of flash as a workaroud for RP2350 E10
     \\
 ;
 
@@ -81,6 +83,31 @@ pub fn main() !void {
     defer dest_file.close();
 
     var buffered = std.io.bufferedWriter(dest_file.writer());
+
+    for (args) |arg| {
+        if (std.mem.eql(u8, "--rp2350-errata-fix", arg)) {
+            const initial_block = uf2.Block{
+                .flags = .{
+                    .not_main_flash = false,
+                    .file_container = false,
+                    .family_id_present = true,
+                    .md5_checksum_present = false,
+                    .extension_tags_present = false,
+                },
+                .target_addr = 0x10ffff00,
+                .payload_size = 256,
+                .block_number = 0,
+                .total_blocks = 2,
+                .file_size_or_family_id = .{
+                    .family_id = .RP2XXX_ABSOLUTE,
+                },
+                .data = .{0xef} ** 256 ++ .{0} ** (476 - 256),
+            };
+            try initial_block.write_to(buffered.writer());
+            break;
+        }
+    }
+
     try archive.write_to(buffered.writer());
     try buffered.flush();
 }
