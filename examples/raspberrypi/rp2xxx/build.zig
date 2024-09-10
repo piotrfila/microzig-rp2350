@@ -3,9 +3,10 @@ const MicroZig = @import("microzig/build");
 const rp2xxx = @import("microzig/bsp/raspberrypi/rp2xxx");
 
 const available_examples = [_]Example{
-    // RaspberryPi Boards:
+    // RaspberryPi Pico:
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_adc", .file = "src/adc.zig" },
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_blinky", .file = "src/blinky.zig" },
+    .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_blinky_no_timer", .file = "src/blinky_no_timer.zig" },
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_flash-program", .file = "src/flash_program.zig" },
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_flash-id", .file = "src/flash_id.zig" },
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_gpio-clk", .file = "src/gpio_clk.zig" },
@@ -19,6 +20,9 @@ const available_examples = [_]Example{
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_usb-cdc", .file = "src/usb_cdc.zig" },
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_ws2812", .file = "src/ws2812.zig" },
     .{ .target = rp2xxx.boards.raspberrypi.pico, .name = "pico_multicore", .file = "src/blinky_core1.zig" },
+
+    // RaspberryPi Pico 2:
+    // .{ .target = rp2xxx.boards.raspberrypi.pico_2, .name = "pico_2_blinky_no_timer", .file = "src/blinky_no_timer.zig" },
 
     // WaveShare Boards:
     .{ .target = rp2xxx.boards.waveshare.rp2040_matrix, .name = "rp2040-matrix_tiles", .file = "src/tiles.zig" },
